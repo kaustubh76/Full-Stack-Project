@@ -28,7 +28,8 @@ export const config = {
   matcher: [
     '/sign-in',
     '/sign-up',
-    '/',
+    '/home',
+    '/'
 //    'dashboard/:path*',
 //     '/verify/:path*'
 ]
