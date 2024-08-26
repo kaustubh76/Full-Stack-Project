@@ -8,7 +8,7 @@ export const usernameValidation = z
 
     // Here we are using z.object because we have to check multiple fields instead we can check
     // each field separately like above
-export const sigUpSchema = z.object({
+export const signUpSchema = z.object({
     username: usernameValidation,
     email: z.string().email({message: 'Invalid email address'}),
     password: z.string().min(6, {message: "password must be atleast 6 characters"})
