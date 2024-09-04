@@ -1,87 +1,116 @@
-'use-client'
-
-import { useSession, signIn, signOut } from "next-auth/react"
-
-export default function Component() {
-  const { data: session } = useSession()
-  if (session) {
-    return (
-      <>
-        Signed in as {session.user.email} <br />
-        <button onClick={() => signOut()}>Sign out</button>
-      </>
-    )
-  }
-  return (
-    <>
-      Not signed in <br />
-      <button onClick={() => signIn()}>Sign in</button>
-    </>
-  )
-}
-
-
-
-
-
-
-
-
-
-
-/*
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z  from "zod"
 import Link from "next/link"
 import { useEffect, useState } from "react"
-import { useDebounce } from "@uidotdev/usehooks";
+import { useDebounce } from "use-debounce";
 import { useToast } from "@/components/ui/use-toast"
-import { signUpSchema } from "@/src/schemas/signUpSchema"
+import { signInSchema } from "@/src/schemas/signInSchema"
 import { useRouter } from "next/router"
 import axios, {AxiosError} from 'axios'
-
+import { ApiResponse } from "@/src/types/ApiResponse"
+import { Form, FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Loader2 } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { signIn } from "next-auth/react"
 
 const page = () => {
-    const [username ,setUsername] = useState('')
-    const [usernameMessage, setUsernameMessage] = useState('')
-    const [isCheckingUsername ,setIsCheckingUsername] = useState(false)
-    const [isSubmitting, setisSubmiiting] = useState(false)
-
-    const debouncedUsername = useDebounce(username,300)
     const { toast } = useToast()
     const router = useRouter();
 
     //zod implementation
-    const form = useForm<z.infer<typeof signUpSchema>>({
-        resolver: zodResolver(signUpSchema),
-        defaultValues:{
-            username: '',
-            email: '',
+    const form = useForm<z.infer<typeof signInSchema>>({
+        resolver: zodResolver(signInSchema),
+        defaultValues:{ 
+            identifier: '',
             password: ''
         }
     })
 
-    useEffect(() => {
-        const checkUsernameUnique = async () => {
-            if(debouncedUsername){
-                setIsCheckingUsername(true)
-                setUsernameMessage('')
-                try{
-                    const response = await axios.get(`/api/check-username-unique?username=${debouncedUsername}`)
-                    setUsernameMessage(response.data.message)
-                }
-                catch(error){
-                    const axiosError = error as AxiosError
-            }
+    const onSubmit = async (data: z.infer<typeof signInSchema>) => {
+      const result = await signIn('credentials', {
+        redirect: false,
+        identifier: data.identifier,
+        password: data.password,
+      })
+      if(result?.error){
+        if(result.error == 'CredentialsSignin'){
+          toast({
+            title: "Sign in failed",
+            description: "Invalid email or password",
+            variant: "destructive"
+          })
+        } else {
+          toast({
+            title: "Sign in failed",
+            description: "An error occured",
+            variant: "destructive"
+          })
         }
-    }, [deboucedUsername])
-
+        }
+      if(result?.url){
+        router.replace('/dashboard')
+      }
+      }
+    }
+      
     return (
-    <div>page</div>
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-lg" >
+        <div className="text-center">
+            <h1 className="text-4xl font-extrabold trackign-tight lg:text-5xl mb=6">
+                  join Mystery Message
+            </h1>
+            <p className="mb-4">Sign in to start your adventure</p>
+        </div>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-6">
+            
+         <FormField
+          control={form.control}
+          name="identifier"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email/Username</FormLabel>
+              <FormControl>
+                <Input placeholder="email/username" {...field} 
+                />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+         <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Password</FormLabel>
+              <FormControl>
+                <Input placeholder="password" {...field} 
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type = "submit">
+            Sign In
+        </Button>
+          </form>
+        </Form>
+        <div className="text-sm text-center text-gray-500">
+            Already have an account?{' '}
+            <Link href="/sign-in">
+                <a className="text-blue-500">Sign in</a>
+            </Link>
+      </div>
+    </div>
+    </div>
   )
 }
 
 export default page
-*/
-  
