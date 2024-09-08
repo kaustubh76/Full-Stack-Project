@@ -13,9 +13,10 @@ import { boolean } from "zod"
 import { User } from "@/src/model/User"
 import { Button } from "@react-email/components"
 import { Switch } from "@radix-ui/react-switch"
-import { Separator } from "@/components/ui/separator"
+
 import { Loader2, RefreshCcw } from "lucide-react"
 import MessageCard from "@/src/components/MessageCard"
+import { Separator } from "@/src/components/ui/separator"
 
 const Page = () => {
     const [message, setMessages] = useState<Message[]>([])
@@ -169,9 +170,9 @@ const Page = () => {
         )}
 
       </Button>
-        <div className="mt-4">
+        <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
 
-            { message.length > 0 ? (
+            {/* { message.length > 0 ? (
             message.map((message, index) => (
                 <MessageCard 
                 key={message._id} 
@@ -180,7 +181,7 @@ const Page = () => {
             ))
             ) : (
                 <div className="text-center text-gray-500">No messages</div>
-            ) }
+            ) } */}
         </div>
 
       </> 

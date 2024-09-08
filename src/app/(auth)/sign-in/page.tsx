@@ -1,21 +1,23 @@
+"use client"
+
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z  from "zod"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { useDebounce } from "use-debounce";
-import { useToast } from "@/components/ui/use-toast"
+import { useToast } from "@/src/components/ui/use-toast"
 import { signInSchema } from "@/src/schemas/signInSchema"
-import { useRouter } from "next/router"
 import axios, {AxiosError} from 'axios'
 import { ApiResponse } from "@/src/types/ApiResponse"
-import { Form, FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+import { Form, FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/src/components/ui/form"
+import { Input } from "@/src/components/ui/input"
 import { Loader2 } from "lucide-react"
 import { Button } from "@/src/components/ui/button"
 import { signIn } from "next-auth/react"
+import { useRouter } from "next/navigation"
 
-const page = () => {
+const Page = () => {
     const { toast } = useToast()
     const router = useRouter();
 
@@ -33,27 +35,26 @@ const page = () => {
         redirect: false,
         identifier: data.identifier,
         password: data.password,
-      })
+      });
       if(result?.error){
         if(result.error == 'CredentialsSignin'){
           toast({
             title: "Sign in failed",
             description: "Invalid email or password",
             variant: "destructive"
-          })
+          });
         } else {
           toast({
             title: "Sign in failed",
             description: "An error occured",
             variant: "destructive"
-          })
+          });
         }
-        }
+      }
       if(result?.url){
-        router.replace('/dashboard')
+        router.replace('/dashboard');
       }
-      }
-    }
+    };
       
     return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -113,4 +114,5 @@ const page = () => {
   )
 }
 
-export default page
+
+export default Page

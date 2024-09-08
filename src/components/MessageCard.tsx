@@ -9,7 +9,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle
-} from "@/components/ui/card"
+} from "../components/ui/card"
 
 import {
   AlertDialog,
@@ -42,7 +42,7 @@ const MessageCard = ({message, onMessageDelete}: MessageCardProps) => {
     toast({
       title: response.data.message
     })
-    onMessageDelete(message._id) 
+   // onMessageDelete(message:_id)
   } 
   return (
     <Card>

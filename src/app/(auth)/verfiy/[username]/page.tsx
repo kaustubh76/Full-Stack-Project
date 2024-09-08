@@ -1,19 +1,18 @@
-'use-client'
+"use client"
 import { signUpSchema } from '@/src/schemas/signUpSchema'
 import { verifySchema } from '@/src/schemas/verifySchema'
 import axios from 'axios'
-import { useParams } from 'next/navigation'
-import { useRouter } from 'next/router'
+import { useParams, useRouter } from 'next/navigation'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import { AxiosError } from 'axios'
 import { ApiResponse } from '@/src/types/ApiResponse'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/src/components/ui/form'
+import { Input } from '@/src/components/ui/input'
 import { Button } from '@react-email/components'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useToast } from '@/components/ui/use-toast'
+import { useToast } from '@/src/components/ui/use-toast'
 
 const VerifyAccount = () => {
     const router = useRouter()
@@ -59,7 +58,7 @@ const VerifyAccount = () => {
                   <FormField
           control={form.control}
           name="code"
-          render={({ field }) => (
+          render={({ field }: { field: any }) => (
             <FormItem>
               <FormLabel>Verification Code</FormLabel>
               <FormControl>

@@ -1,4 +1,4 @@
-'use-client'
+"use client"
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -6,17 +6,17 @@ import * as z  from "zod"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { useDebounce } from "use-debounce";
-import { useToast } from "@/components/ui/use-toast"
+import { useToast } from "@/src/components/ui/use-toast"
 import { signUpSchema } from "@/src/schemas/signUpSchema"
-import { useRouter } from "next/router"
 import axios, {AxiosError} from 'axios'
 import { ApiResponse } from "@/src/types/ApiResponse"
-import { Form, FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+import { Form, FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/src/components/ui/form"
+import { Input } from "@/src/components/ui/input"
 import { Loader2 } from "lucide-react"
 import { Button } from "@/src/components/ui/button"
+import { useRouter } from "next/navigation"
 
-const page = () => {
+const Page = () => {
     const [username ,setUsername] = useState('')
     const [usernameMessage, setUsernameMessage] = useState('')
     const [isCheckingUsername ,setIsCheckingUsername] = useState(false)
@@ -94,7 +94,7 @@ const page = () => {
             <FormField
           control={form.control}
           name="username"
-          render={({ field }) => (
+          render={({ field }: { field: any }) => (
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
@@ -112,7 +112,7 @@ const page = () => {
          <FormField
           control={form.control}
           name="email"
-          render={({ field }) => (
+          render={({ field }: { field: any }) => (
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
@@ -127,7 +127,7 @@ const page = () => {
          <FormField
           control={form.control}
           name="password"
-          render={({ field }) => (
+          render={({ field }: { field: any }) => (
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
@@ -161,4 +161,4 @@ const page = () => {
 }
 
 }
-export default page
+export default Page
