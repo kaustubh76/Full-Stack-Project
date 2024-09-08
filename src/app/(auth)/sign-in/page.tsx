@@ -12,7 +12,7 @@ import { ApiResponse } from "@/src/types/ApiResponse"
 import { Form, FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Loader2 } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/src/components/ui/button"
 import { signIn } from "next-auth/react"
 
 const page = () => {
