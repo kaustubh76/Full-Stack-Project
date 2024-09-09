@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Navbar from "@/src/components/Navbar";
 const inter = Inter({ subsets: ["latin"] });
+import { SessionProvider } from "next-auth/react"
+import { Session } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,11 +17,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <SessionProvider>
       <body className={inter.className}>
         <Navbar/>
         {children}
       </body>
-   
+      </SessionProvider>
     </html>
   );
 }

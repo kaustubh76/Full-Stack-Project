@@ -1,4 +1,4 @@
-'use-client'
+'use client'
 
 import { useToast } from "@/src/components/ui/use-toast"
 import { Message } from "@/src/model/User"
